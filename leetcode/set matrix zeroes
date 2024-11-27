@@ -1,0 +1,25 @@
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        ArrayList<int[]> a=new ArrayList<>();
+        for(int i=0;i<matrix.length;i++)
+        {
+            for(int j=0;j<matrix[i].length;j++)
+            {
+                if(matrix[i][j]==0)
+                {
+                   a.add(new int[]{i,j});
+                }
+            }
+        }
+        for(int[] arr:a)
+        {
+            int row=arr[0];
+            int col=arr[1];
+            Arrays.fill(matrix[row],0);
+            for(int i=0;i<matrix.length;i++)
+            {
+               matrix[i][col]=0;
+            }
+        }
+    }
+}

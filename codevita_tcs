@@ -1,0 +1,82 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        TreeMap<Integer, List<Integer>> hs = new TreeMap<>();
+        while (m > 0) 
+        {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            hs.computeIfAbsent(a, k -> new ArrayList<>()).add(b);
+            hs.computeIfAbsent(b, k -> new ArrayList<>()).add(a);
+            m--;
+        }
+        int rostering = sc.nextInt();
+        ArrayList<ArrayList<Integer>> arr = new ArrayList<>(n);
+        for (int i = 0; i < n; i++) 
+        {
+            arr.add(new ArrayList<>(Collections.nCopies(50, 0))); 
+        }
+        int rostering_value = n;
+        int answer = 0;
+        for (int i = 0; i < n; i++) 
+        {
+            arr.get(i).set(0, 1); 
+        }
+        answer++;
+        while (rostering_value < rostering) 
+        {
+            for (int i = 0; i < n; i++) 
+            {
+                int friendsInOffice = count(arr, i, answer - 1, hs);
+                if (arr.get(i).get(answer - 1) == 1) 
+                {
+                    if (friendsInOffice == 3) 
+                    {
+                        arr.get(i).set(answer, 1);
+                    } 
+                    else 
+                    {
+                        arr.get(i).set(answer, 0);
+                    }
+                } 
+                else 
+                {
+                    if (friendsInOffice < 3) 
+                    {
+                        arr.get(i).set(answer, 1);
+                    } 
+                    else 
+                    {
+                        arr.get(i).set(answer, 0);
+                    }
+                }
+            }
+            for (int i = 0; i < n; i++) 
+            {
+                if (arr.get(i).get(answer) == 1) 
+                {
+                    rostering_value++;
+                }
+            }
+            answer++;
+        }
+        System.out.println(answer);
+    }
+
+    public static int count(ArrayList<ArrayList<Integer>> arr, int i, int day, TreeMap<Integer,List<Integer>> hs) 
+    {
+        int count = 0;
+        for (int friend : hs.getOrDefault(i, Collections.emptyList())) 
+        {
+            if (friend < arr.size() && day < arr.get(friend).size() && arr.get(friend).get(day) == 1) 
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+}

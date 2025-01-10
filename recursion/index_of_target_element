@@ -1,0 +1,20 @@
+import java.io.*;
+import java.util.*;
+public class Main
+{
+	public static void main(String[] args) {
+		int[] a={1,2,3,4,3};
+		int target=3;
+		System.out.println(func(a,target,0));
+	}
+	
+	public static ArrayList<Integer> func(int[] a, int target,int index)
+	{
+	    ArrayList<Integer> list=new ArrayList<>();
+	    if(index==a.length) return list;
+	    if(a[index]==target) list.add(index);
+	    ArrayList<Integer> ans=func(a,target,index+1);
+	    list.addAll(ans);
+	    return list;
+	}
+}
